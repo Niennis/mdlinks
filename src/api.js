@@ -4,7 +4,6 @@ const marked = require('marked');
 const fetch = require('node-fetch');
 const { resolve } = require('path');
 const renderer = new marked.Renderer();
-const testRoute = process.argv[2];
 
 const readDirectory = (route) => {
   return new Promise((resolve, reject) => {
@@ -14,19 +13,13 @@ const readDirectory = (route) => {
         reject('No pudo leer el directorio')
       } else {
         filenames.forEach(file => {
-          // if (file.substr(-3) == '.md') {
           arr.push(path.resolve(route) + `/${file}`)
-          // }
         })
       }
       resolve(arr)
     })
   })
 }
-/* readDirectory(testRoute)
-  .then(data => console.log(data))
-  .catch(err => console.log(err))
- */
 
 const readFile = (file) => {
   return new Promise((resolve, reject) => {
@@ -49,9 +42,6 @@ const readFile = (file) => {
     })
   })
 }
-/* readFile(process.argv[2])
-  .then(data => console.log('data', data))
-  .catch(err => console.log(err)) */
 
 const fileOrDirectory = (route) => {
   return new Promise((resolve, reject) => {
@@ -61,12 +51,7 @@ const fileOrDirectory = (route) => {
 
       if (stats.isDirectory()) {
         readDirectory(route).then(files => {
-          // files es array de rutas
-          // files.push(fileOrDirectory(file))
-          files.forEach(file => {
-            // console.log('file', file)
-            promises.push(fileOrDirectory(file))
-          })
+          files.forEach(file => promises.push(fileOrDirectory(file)))
           resolve(Promise.all(promises).then(response => response.flat()))
         })
       } else {
@@ -76,9 +61,7 @@ const fileOrDirectory = (route) => {
   })
 }
 
-const isMd = (arr) => {
-  return arr.filter(el => path.extname(el) === '.md')
-}
+const isMd = arr => arr.filter(el => path.extname(el) === '.md');
 
 const isValid = (links) => {
   return new Promise((resolve, reject) => {

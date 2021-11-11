@@ -18,11 +18,11 @@ const isStats = (route, stats) => {
           resolve({
             total: links.length,
             unique: new Set(links).size,
-            broken: data.filter(item => item.ok !== 'ok').length
+            broken: data.filter(item => item.ok !== `ok`).length
           })
         }
       })
-      .catch(() => reject('Algo salió mal'))
+      .catch(() => reject(`Algo salió mal`))
   })
 }
 
