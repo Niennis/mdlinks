@@ -47,21 +47,23 @@ const fileOrDirectory = (route) => {
   return new Promise((resolve, reject) => {
     const promises = [];
     fs.stat(route, (err, stats) => {
-      if (err) { reject('Ruta inválida') };
-
-      if (stats.isDirectory()) {
-        readDirectory(route).then(files => {
-          files.forEach(file => promises.push(fileOrDirectory(file)))
-          resolve(Promise.all(promises).then(response => response.flat()))
-        })
+      if (err) {
+        reject('Ruta inválida')
       } else {
-        resolve([path.resolve(route)])
+        if (stats.isDirectory()) {
+          readDirectory(route).then(files => {
+            files.forEach(file => promises.push(fileOrDirectory(file)))
+            resolve(Promise.all(promises).then(response => response.flat()))
+          })
+        } else {
+          resolve([path.resolve(route)])
+        }
       }
     })
   })
 }
 
-const isMd = arr => arr.filter(el => path.extname(el) === '.md');
+const getMdFiles = arr => arr.filter(el => path.extname(el) === '.md');
 
 const isValid = (links) => {
   return new Promise((resolve, reject) => {
@@ -75,9 +77,10 @@ const isValid = (links) => {
           })
         })
         .catch(() => {
-          reject('No encontró la ruta');
+          reject('Hubo un problema con la ruta');
         });
     })
+
     resolve(Promise.all(arr))
   })
 }
@@ -85,7 +88,7 @@ const isValid = (links) => {
 const mdLinks = (route, option = { validate: false }) => {
   return new Promise((resolve, reject) => {
     fileOrDirectory(route)
-      .then(data => isMd(data))
+      .then(data => getMdFiles(data))
       .then(data => {
         let arr = [];
         data.forEach(item => {
@@ -103,7 +106,6 @@ const mdLinks = (route, option = { validate: false }) => {
       .catch(err => reject(err))
   })
 }
-
 
 module.exports = {
   mdLinks
