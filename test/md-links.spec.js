@@ -31,11 +31,15 @@ describe('mdLinks', () => {
   });
 
   it('should throw "Ruta inválida" if wrong route', async () => {
-    await expect(mdLinks(wrongRoute)).rejects.toMatch('Ruta inválida');
+    await expect(mdLinks(wrongRoute)).rejects.toMatch('La ruta no existe');
   })
 
-  it.skip('no sé qué poner aún', async () => {
-    await expect(mdLinks(emptyFile)).resolves.toMatch('No hay links');
+  it('should return "No existen archivos md', async () => {
+    await expect(mdLinks(emptyDir)).rejects.toMatch('No existen archivos md');
+  })
+
+  it('should return "No se encontraron links', async () => {
+    await expect(mdLinks(emptyFile)).rejects.toMatch('No se encontraron links');
   })
 
   it('response should includes status and ok if validate = true', async () => {

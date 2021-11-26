@@ -5,7 +5,19 @@ const fetch = require('node-fetch');
 const { resolve } = require('path');
 const renderer = new marked.Renderer();
 
-const readDirectory = (route) => {
+const absoluteRoute = route => path.resolve(route);
+
+const exists = route => {
+  return new Promise((resolve, reject) => {
+    if (fs.existsSync(route)) {
+      resolve(route)
+    } else {
+      reject(`La ruta no existe`)
+    }
+  })
+}
+
+const readDirectory = route => {
   return new Promise((resolve, reject) => {
     fs.readdir(route, (err, filenames) => {
       let arr = [];
@@ -21,12 +33,12 @@ const readDirectory = (route) => {
   })
 }
 
-const readFile = (file) => {
+const readFile = file => {
   return new Promise((resolve, reject) => {
     fs.readFile(file, 'utf-8', (err, data) => {
       let arr = [];
       if (err) {
-        reject('error')
+        reject('No se pudo leer el archivo')
       } else {
         renderer.link = (href, title, text) => {
           arr.push({
@@ -43,7 +55,7 @@ const readFile = (file) => {
   })
 }
 
-const fileOrDirectory = (route) => {
+const fileOrDirectory = route => {
   return new Promise((resolve, reject) => {
     const promises = [];
     fs.stat(route, (err, stats) => {
@@ -63,9 +75,19 @@ const fileOrDirectory = (route) => {
   })
 }
 
-const getMdFiles = arr => arr.filter(el => path.extname(el) === '.md');
+const getMdFiles = arr => {
+  return new Promise((resolve, reject) => {
+    const response = arr.filter(el => path.extname(el) === '.md');
+    if(response.length > 0) {
+      resolve(response)
+    } else {
+      reject('No existen archivos md')
+    }
+  })
 
-const isValid = (links) => {
+}
+
+const isValid = links => {
   return new Promise((resolve, reject) => {
     const arr = links.map(item => {
       return fetch(item.href)
@@ -87,7 +109,8 @@ const isValid = (links) => {
 
 const mdLinks = (route, option = { validate: false }) => {
   return new Promise((resolve, reject) => {
-    fileOrDirectory(route)
+    exists(absoluteRoute(route))
+      .then(() => fileOrDirectory(route))    
       .then(data => getMdFiles(data))
       .then(data => {
         let arr = [];
