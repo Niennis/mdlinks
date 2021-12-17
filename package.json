@@ -9,10 +9,10 @@
   "scripts": {
     "test": "jest --verbose --coverage"
   },
-  "author": "",
+  "author": "estefania osses vera",
   "license": "ISC",
   "bin": {
-    "md-links": "./src/cli.js"
+    "md-links": "src/cli.js"
   },
   "devDependencies": {
     "jest": "^27.1.0"
@@ -23,5 +23,19 @@
   },
   "publishConfig": {
     "@niennis:registry": "https://npm.pkg.github.com"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niennis/mdlinks.git"
+  },
+  "keywords": [
+    "mdlinks",
+    "md",
+    "links",
+    "node"
+  ],
+  "bugs": {
+    "url": "https://github.com/Niennis/mdlinks/issues"
+  },
+  "homepage": "https://github.com/Niennis/mdlinks#readme"
 }
