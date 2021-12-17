@@ -34,29 +34,6 @@ const readDirectory = route => {
 }
 // probar fs.readdirSync 
 
-
-const readFile = file => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(file, 'utf-8', (err, data) => {
-      let arr = [];
-      if (err) {
-        reject('No se pudo leer el archivo')
-      } else {
-        renderer.link = (href, title, text) => {
-          arr.push({
-            text: text,
-            href: href,
-            file: file,
-          })
-        }
-        marked(data, { renderer })
-
-        resolve(arr)
-      }
-    })
-  })
-}
-
 const fileOrDirectory = route => {
   return new Promise((resolve, reject) => {
     const promises = [];
@@ -86,7 +63,28 @@ const getMdFiles = arr => {
       reject('No existen archivos md')
     }
   })
+}
 
+const readFile = file => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(file, 'utf-8', (err, data) => {
+      let arr = [];
+      if (err) {
+        reject('No se pudo leer el archivo')
+      } else {
+        renderer.link = (href, title, text) => {
+          arr.push({
+            text: text,
+            href: href,
+            file: file,
+          })
+        }
+        marked(data, { renderer })
+
+        resolve(arr)
+      }
+    })
+  })
 }
 
 const isValid = links => {
