@@ -1,5 +1,5 @@
 {
-  "name": "md-links-fanny",
+  "name": "@niennis/mdlinks",
   "version": "0.1.0",
   "description": "## Índice",
   "main": "index.js",
@@ -20,5 +20,8 @@
   "dependencies": {
     "marked": "^2.1.3",
     "node-fetch": "2.0.0"
+  },
+  "publishConfig": {
+    "@niennis:registry": "https://npm.pkg.github.com"
   }
 }

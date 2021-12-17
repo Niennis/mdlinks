@@ -2,11 +2,13 @@
 const { mdLinks } = require('../src/api.js');
 const { isStats } = require('../src/stats.js');
 
-const routeDir = './test/testdirectory';
+const routeDir = '/home/fanny/Documentos/Estudio/04-md-links/test/testdirectory';
 const routeFile = './test/testdirectory/testfile.md';
 const wrongRoute = './test/wrong';
 const emptyDir = './test/testdirectory/dirwithoutfiles';
 const emptyFile = './test/testdirectory/filewithoutlinks.md'
+const fileWithoutPermission = '/home/fanny/noviembre/viernes.md'
+const dirWithoutPermission = '/home/fanny/noviembre'
 
 describe('mdLinks', () => {
 
@@ -32,6 +34,14 @@ describe('mdLinks', () => {
 
   it('should throw "Ruta inválida" if wrong route', async () => {
     await expect(mdLinks(wrongRoute)).rejects.toMatch('La ruta no existe');
+  })
+
+  it('should return "No se pudo leer el archivo', async () => {
+    await expect(mdLinks(fileWithoutPermission)).rejects.toMatch('No se pudo leer el archivo');
+  })
+
+  it('should return "No se pudo leer el directorio', async () => {
+    await expect(mdLinks(dirWithoutPermission)).rejects.toMatch('No se pudo leer el directorio');
   })
 
   it('should return "No existen archivos md', async () => {
@@ -64,11 +74,11 @@ describe('mdLinks', () => {
   });
 
   it('if validate false and stats true should return total and unique', async () => {
-    await expect(isStats(routeDir, true)).resolves.toEqual({"broken": 2, "total": 2, "unique": 2});
+    await expect(isStats(routeDir, true)).resolves.toEqual({ "broken": 2, "total": 2, "unique": 2 });
   })
 
   it('if validate false and stats true should return total and unique', async () => {
-    await expect(isStats(routeDir, false)).resolves.toEqual({"total": 2, "unique": 2});
+    await expect(isStats(routeDir, false)).resolves.toEqual({ "total": 2, "unique": 2 });
   })
 
 })

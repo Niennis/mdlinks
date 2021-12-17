@@ -22,7 +22,7 @@ const readDirectory = route => {
     fs.readdir(route, (err, filenames) => {
       let arr = [];
       if (err) {
-        reject('No pudo leer el directorio')
+        reject('No se pudo leer el directorio')
       } else {
         filenames.forEach(file => {
           arr.push(path.resolve(route) + `/${file}`)
@@ -32,6 +32,8 @@ const readDirectory = route => {
     })
   })
 }
+// probar fs.readdirSync 
+
 
 const readFile = file => {
   return new Promise((resolve, reject) => {
