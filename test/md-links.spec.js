@@ -1,5 +1,5 @@
 // const mdLinks = require('../');
-const { mdLinks } = require('../src/api.js');
+const { mdLinks } = require('../src/index.js');
 const { isStats } = require('../src/stats.js');
 
 const routeDir = '/home/fanny/Documentos/Estudio/04-md-links/test/testdirectory';

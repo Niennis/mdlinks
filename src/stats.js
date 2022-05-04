@@ -1,4 +1,4 @@
-const mdLinks = require('./api.js')
+const mdLinks = require('./index.js')
 
 const isStats = (route, stats) => {
   return new Promise((resolve, reject) => {

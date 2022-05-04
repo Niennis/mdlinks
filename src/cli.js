@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const mdLinks = require('./api.js');
+const mdLinks = require('./index.js');
 const isStats = require('./stats.js');
 
 const [...args] = process.argv;
