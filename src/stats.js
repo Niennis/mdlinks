@@ -2,7 +2,7 @@ const mdLinks = require('./index.js')
 
 const isStats = (route, stats) => {
   return new Promise((resolve, reject) => {
-    mdLinks.mdLinks(route, { validate: false })
+    mdLinks.mdLinks(route, { validate: true })
       .then(data => {
         const links = []
         data.forEach(item => {
