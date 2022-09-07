@@ -9,7 +9,7 @@ if(args.includes('--validate') && args.includes('--stats') && args[2]){
     .then(response => {
         console.log(`Total: ${response.total}`)
         console.log(`Unique: ${response.unique}`)
-        console.log(`Broken: + ${response.broken}`)
+        console.log(`Broken: ${response.broken}`)
     })
 } else if(!args.includes('--validate') && !args.includes('--stats')  && args[2]){
   mdLinks.mdLinks(args[2], { validate: false })
