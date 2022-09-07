@@ -99,8 +99,13 @@ const isValid = links => {
           })
         })
         .catch(() => {
-          reject('Hubo un problema con la ruta');
-        });
+          // reject({error: 'Hubo un problema con la ruta'});
+          return({
+            ...item,
+            status: 'n/a',
+            ok: 'n/a'
+          })
+        })
     })
 
     resolve(Promise.all(arr))
